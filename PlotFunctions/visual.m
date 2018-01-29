@@ -11,15 +11,17 @@ function visual(varargin)
 % imax, jmax     - max. number of cells in x and y direction respectively
 % P              - pressure
 
-% creating a mesh plot for the final values of U, V, and P
+
 if nargin == 6
-    U = varargin{1};
-    V = varargin{2};
-    jmax = varargin{3};
-    imax = varargin{4};
-    P = varargin{5};
     
+    % creating a mesh plot for the final values of U, V, and P
     if strcmp(varargin{6}, 'mesh')
+        U = varargin{1};
+        V = varargin{2};
+        jmax = varargin{3};
+        imax = varargin{4};
+        P = varargin{5};
+        
         U_vis = zeros(jmax, imax);
         V_vis = zeros(jmax, imax);
         P_vis = zeros(jmax, imax);
@@ -41,7 +43,19 @@ if nargin == 6
         figure
         title('Mesh plot of pressure')
         mesh(P_vis);
+    
+    % creating a contour plot for vorticity or stream function    
+    elseif strcmp(varargin{6}, 'contour')
+        Psi = varargin{1};
+        jmax = varargin{2};
+        imax = varargin{3};
+        delx = varargin{4};
+        dely = varargin{5};
         
+        [x, y] = meshgrid(delx:delx:(imax*delx), dely:dely:jmax*dely);
+        
+        contour(x, y, Psi);
+                
     else
         error('Check input')
         
@@ -74,20 +88,24 @@ elseif nargin == 7
     else
         error('Check input');
         
-    end
-
-% creating a contour plot for vorticity or stream function
-elseif nargin == 2
+    end 
     
-    if strcmp(varargin{2}, 'contour')
-        Psi = varargin{1};
+% creating a line plot for paticle trace and streak lines
+elseif nargin == 3
+    
+    if strcmp(varargin{3}, 'pt')
+        part_x = varargin{1};
+        part_y = varargin{2};
         
-        contour(Psi);
-    
+        plot(part_x, part_y, 'R.');
+        
+    elseif strcmp(varargin{3}, 'sl');
+        error('Not implemented yet');
+        
     else
-        error('Check input');
+        error('Check Input');
         
-    end          
+    end
            
 else
     error('Check input');

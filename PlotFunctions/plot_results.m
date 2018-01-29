@@ -35,10 +35,10 @@ elseif nargin == 8
     delx = varargin{7};
     dely = varargin{8};
     
-    subplot(1, 2, 1)
+    subplot(2, 1, 1)
     visual(U, V, jmax, imax, delx, dely, 'quiver');
     hold on
-    visual(Psi, 'contour');
+    visual(Psi, jmax, imax, delx, dely, 'contour');
     hold on
     if exist('ObstacleCoordinates.mat', 'file')
         load ObstacleCoordinates.mat
@@ -51,10 +51,10 @@ elseif nargin == 8
     ylabel('y ->')
     legend('Velocity field', 'Stream function', 'Obstacle')
 
-    subplot(1, 2, 2)
-    visual(U, V, jmax, imax, 'quiver');
+    subplot(2, 1, 2)
+    visual(U, V, jmax, imax, delx, dely, 'quiver');
     hold on
-    visual(Zeta, 'contour');
+    visual(Zeta, jmax, imax, delx, dely, 'contour');
     hold on
     if exist('ObstacleCoordinates.mat', 'file')
         load ObstacleCoordinates.mat
@@ -66,6 +66,111 @@ elseif nargin == 8
     xlabel('x ->')
     ylabel('y ->')
     legend('Velocity field', 'Vorticity', 'Obstacle')
+    
+elseif nargin == 10
+    
+    U = varargin{1};
+    V = varargin{2};
+    pt_part_x = varargin{3};
+    pt_part_y = varargin{4};
+    sl_part_x = varargin{5};
+    sl_part_y = varargin{6};
+    jmax = varargin{7};
+    imax = varargin{8};
+    delx = varargin{9};
+    dely = varargin{10};
+    
+    subplot(2, 1, 1)
+    visual(U, V, jmax, imax, delx, dely, 'quiver');
+    hold on
+    if exist('ObstacleCoordinates.mat', 'file')
+        load ObstacleCoordinates.mat
+        plot(xcoord, ycoord, 'R*');
+    end
+    hold off
+    title('Velocity Field')
+    xlabel('x ->')
+    ylabel('y ->')
+    legend('Velocity field', 'Obstacle')
+    axis equal
+    
+    subplot(2, 1, 2)
+    cla();
+    hold on
+    axis([0 (imax*delx)+(3*delx) 0 (jmax*dely)+(3*dely)])
+    visual(pt_part_x, pt_part_y, 'pt')
+    hold on
+    if exist('ObstacleCoordinates.mat', 'file')
+        load ObstacleCoordinates.mat
+        plot(xcoord, ycoord, 'K*');
+    end
+    hold off
+    title('Particle trace and Streak lines')
+    xlabel('x ->')
+    ylabel('y ->')
+    legend('Injected Particles', 'Obstacle')
+      
+elseif nargin == 12
+    U = varargin{1};
+    V = varargin{2};
+    Psi = varargin{3};
+    Zeta = varargin{4};
+    pt_part_x = varargin{5};
+    pt_part_y = varargin{6};
+    sl_part_x = varargin{7};
+    sl_part_y = varargin{8};
+    jmax = varargin{9};
+    imax = varargin{10};
+    delx = varargin{11};
+    dely = varargin{12};
+    
+    subplot(3, 1, 1)
+    visual(U, V, jmax, imax, delx, dely, 'quiver');
+    hold on
+    visual(Psi, jmax, imax, delx, dely, 'contour');
+    hold on
+    if exist('ObstacleCoordinates.mat', 'file')
+        load ObstacleCoordinates.mat
+        plot(xcoord, ycoord, 'R*');
+    end
+    hold off
+    axis equal
+    title('Velocity field and Stream function')
+    xlabel('x ->')
+    ylabel('y ->')
+    legend('Velocity field', 'Stream function', 'Obstacle')
+
+    subplot(3, 1, 2)
+    visual(U, V, jmax, imax, delx, dely, 'quiver');
+    hold on
+    visual(Zeta, jmax, imax, delx, dely, 'contour');
+    hold on
+    if exist('ObstacleCoordinates.mat', 'file')
+        load ObstacleCoordinates.mat
+        plot(xcoord, ycoord, 'R*');
+    end
+    hold off
+    axis equal
+    title('Velocity field and Vorticity')
+    xlabel('x ->')
+    ylabel('y ->')
+    legend('Velocity field', 'Vorticity', 'Obstacle')
+    
+    subplot(3, 1, 3)
+    cla();
+    hold on
+    axis([0 (imax*delx)+(3*delx) 0 (jmax*dely)+(3*dely)])
+    visual(pt_part_x, pt_part_y, 'pt')
+    hold on
+    if exist('ObstacleCoordinates.mat', 'file')
+        load ObstacleCoordinates.mat
+        plot(xcoord, ycoord, 'K*');
+    end
+    hold off
+    title('Particle trace and Streak lines')
+    xlabel('x ->')
+    ylabel('y ->')
+    legend('Injected Particles', 'Obstacle')
     
 else   
     error('Check Input');

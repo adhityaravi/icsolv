@@ -16,7 +16,7 @@ clear;
 fixPath();
 
 % loading the program parameters
-progpar('the_driven_cavity');
+progpar('the_von_karmann');
 load('inFile');
 
 % setting all matlab warnings off
@@ -24,6 +24,11 @@ warning('off', 'all');
 
 % fetching the obstacle coordinates
 get_ObstacleCoords(problem, delx, dely, jmax, imax);
+
+% inject particles for particle trace and streaklines
+if strcmp(trace_streak, 'on')
+    [pt_part_x, pt_part_y] = set_particles(N, ug, og, delx, 'pt');
+end
 
 % initializing the velocity and pressure throughout the grid
 [U, V, P] = initgrid(imax, jmax, U_I, V_I, P_I, problem);
@@ -54,13 +59,44 @@ while T <= T_end
     % calculating the velocity values at the current time step
     [U, V] = calc_UV(F, G, P, imax, jmax, delt, delx, dely);
     
-    if strcmp(calc_psi_zeta, 'on') 
+    if strcmp(calc_psi_zeta, 'on') && strcmp(trace_streak, 'on')
+        %calculating sizes of stream function and vorticity
+        [Psi, Zeta] = psi_zeta(U, V, imax, jmax, delx, dely);
+        
+        % tracing the injected particles
+        [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx, ...
+                                              dely, delt, pt_part_x,...
+                                              pt_part_y);
+        
+        % ***Streaklines not yet implemented***
+        sl_part_x = 0;
+        sl_part_y = 0; 
+        
+        % plotting the results
+        plot_results(U, V, Psi, Zeta, pt_part_x, pt_part_y, sl_part_x, ...
+                     sl_part_y, jmax, imax, delx, dely);
+        
+    elseif strcmp(calc_psi_zeta, 'on') 
         %calculating sizes of stream function and vorticity
         [Psi, Zeta] = psi_zeta(U, V, imax, jmax, delx, dely);
 
         % creating a plot of velocity field, stream function and vorticity 
         plot_results(U, V, Psi, Zeta, jmax, imax, delx, dely);
-    
+        
+    elseif strcmp(trace_streak, 'on')
+        % tracing the injected particles
+        [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx, ...
+                                              dely, delt, pt_part_x,...
+                                              pt_part_y);
+                                          
+        % ***Streaklines not yet implemented***
+        sl_part_x = 0;
+        sl_part_y = 0;
+        
+        % plotting the results
+        plot_results(U, V, pt_part_x, pt_part_y, sl_part_x, sl_part_y,...
+                     jmax, imax, delx, dely);
+          
     else
         % creating a quiver plot of velocity field
         plot_results(U, V, jmax, imax, delx, dely);
