@@ -75,9 +75,9 @@ global corner
 global length
 global height
 
-corner = [4, 2]; % lower left corner
-length = 0.5;
-height = 0.5;
+corner = [4, 1.2]; % lower left corner
+length = 1;
+height = 1;
 
 % saving the values in a matlab input data file
 save('inFile.mat', 'imax', 'jmax', 'delx', 'dely', 'delt', 'T_end', ...

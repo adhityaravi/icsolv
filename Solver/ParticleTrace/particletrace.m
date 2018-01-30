@@ -1,7 +1,8 @@
 % script to inject and trace particles
 
 function [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx,... 
-                                          dely, delt, pt_part_x, pt_part_y)
+                                                dely, delt, pt_part_x,...
+                                                pt_part_y, problem)
                                       
 % input variables
 % -------------------------------------------------------------------------
@@ -28,13 +29,40 @@ function [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx,...
 %  the domain
 
 % particles striking an obstacle
-load ObstacleCoordinates.mat;
-
-for i=1:numel(xcoord)
-       el_i = pt_part_x == xcoord(i);
-       el_j = pt_part_y == ycoord(i);
-       pt_part_x(el_i) = [];
-       pt_part_y(el_j) = [];
+if exist('ObstacleCoordinates.mat', 'file')
+    load ObstacleCoordinates.mat;
+    
+    switch problem
+        
+        case {'the_von_karmann', 'flow_above_stair', 'schraegem_balken'}
+            kx_min = find(pt_part_x > min(xcoord));
+            kx_max = find(pt_part_x < max(xcoord));
+            kx = intersect(kx_min, kx_max);
+            
+            ky_min = find(pt_part_y(kx) > min(ycoord));
+            ky_max = find(pt_part_y(kx) < max(ycoord));
+            ky = intersect(ky_min, ky_max);
+            
+            pt_part_x(ky) = [];
+            pt_part_y(ky) = [];
+            
+        case 'cylinder_wake'
+            global radius
+            
+            for i=1:numel(pt_part_x)
+                
+                if sqrt((pt_part_x^2) + (pt_part_y^2)) <= radius
+                    pt_part_x(i) = [];
+                    pt_part_y(i) = [];
+                end
+                
+            end
+            
+        otherwise 
+            error('Not implemented yet');
+            
+    end
+    
 end
 
 % particles travelling out of domain

@@ -14,3 +14,5 @@ To solve a new problem, do the following
 * Add the set_problem_name as one of the cases in the spec_boundary_values.m function
 
 * Modify the main incompvis.m script to call the new problem.
+
+* NOTE : Particle trace and Straklines cannot handle shapes other than box, cylinder, tilted beam and no obstacle.

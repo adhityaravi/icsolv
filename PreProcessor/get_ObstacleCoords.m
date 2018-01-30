@@ -31,20 +31,20 @@ switch problem
         global length
         global height
         
-        corner(1) = corner(1)/delx;
-        corner(2) = corner(2)/dely;
+        c(1) = (corner(1)/delx) + 1; 
+        c(2) = (corner(2)/dely) + 1;
         
-        length = round(length/delx);
-        height = round(height/dely);
+        l = round(length/delx);
+        h = round(height/dely); 
         
         x=1;
         
-        for j=2:jmax+1
-            for i=2:imax+1
-                xdist = abs(corner(1)-i); % length of the beam
-                ydist = abs(corner(2)-j); % height of the beam
+        for j=(c(2)):jmax+1
+            for i=(c(1)):imax+1
+                xdist = abs(c(1)-i);% length of the beam
+                ydist = abs(c(2)-j); % height of the beam
                 
-                if xdist<=length && ydist<=height
+                if xdist<=l && ydist<=h
                     icoord(x) = i;
                     jcoord(x) = j;
                     x = x+1;
@@ -53,7 +53,7 @@ switch problem
             end
         end
         
-    % flow obstructed by a slanting beam    
+    % flow obstructed by a slanting beam (beta)   
     case 'schraegem_balken'
         
         a = 45; % angle at which the beam is tilted with x axis (fixed)
@@ -69,16 +69,16 @@ switch problem
         global start
         global length 
         
-        start(1) = start(1)/delx;
-        start(2) = start(2)/dely;
+        s(1) = (start(1)/delx) + 1;
+        s(2) = (start(2)/dely) + 1;
         
-        length = round(length/delx);
+        l = round(length/delx);
         
-        x1 = start(1);
-        y1 = start(2);
+        x1 = s(1);
+        y1 = s(2);
         
-        x2 = x1+round(length*cos(a));
-        y2 = y1+round(length*sin(a));
+        x2 = x1+round(l*cos(a));
+        y2 = y1+round(l*sin(a));
         
         x=1;
         
@@ -90,7 +90,7 @@ switch problem
                     jcoord(x) = j;
                     x = x+1;
                 end
-                if i>x1 && i<=x2 && j>y1 && j<=x2
+                if i>x1 && i<=x2 && j>y1 && j<=y2
                     icoord(x) = i;
                     jcoord(x) = j;
                     x1 = i;
@@ -111,17 +111,17 @@ switch problem
             error('Center out of domain');
         end
         
-        center(1) = (center(1)/delx);
-        center(2) = (center(2)/dely);
+        c(1) = (center(1)/delx) + 1;
+        c(2) = (center(2)/dely) + 1;
         
-        radius = radius/delx;
+        r = radius/delx;
 
         x=1;
 
         for j=2:jmax+1
             for i=2:imax+1
-                dist = sqrt(((center(1)-i)^2) + ((center(2)-j)^2));
-                if dist <= radius
+                dist = sqrt(((c(1)-i)^2) + ((c(2)-j)^2));
+                if dist <= r
                     icoord(x) = i;
                     jcoord(x) = j;
                     x = x+1;
@@ -135,6 +135,8 @@ switch problem
 end
 
 if exist('icoord', 'var') && exist('jcoord', 'var')
+    icoord = round(icoord);
+    jcoord = round(jcoord);
     xcoord = (icoord-1) * delx;
     ycoord = (jcoord-1) * dely;
     save('ObstacleCoordinates.mat', 'icoord', 'jcoord', 'xcoord', 'ycoord');

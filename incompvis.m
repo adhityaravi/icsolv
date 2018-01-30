@@ -87,7 +87,7 @@ while T <= T_end
         % tracing the injected particles
         [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx, ...
                                               dely, delt, pt_part_x,...
-                                              pt_part_y);
+                                              pt_part_y, problem);
                                           
         % ***Streaklines not yet implemented***
         sl_part_x = 0;

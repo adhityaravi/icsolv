@@ -66,10 +66,21 @@ global radius
 center = [5, 1.6];
 radius = 1;
 
+% flag to plot particle trace and streak lines
+trace_streak = 'off';
+
+% parameters required to plot particle trace and streak lines
+N = 10 ; % number of particles to be injected
+ug = 0.4; % lower boundary from which particle injection starts
+og = 3; % upper boundary where particle injection stops
+delt_n = 2*delt; % time interval between which streak lines have to be
+                 %  updated
+
 % saving the values in a matlab input data file
 save('inFile.mat', 'imax', 'jmax', 'delx', 'dely', 'delt', 'T_end', ...
      'itermax', 'epsi', 'omg', 'alph', 'nu', 'GX', 'GY', 'U_I', ...
-     'V_I', 'P_I', 'calc_psi_zeta', 'boundary_flags', 'problem');
+     'V_I', 'P_I', 'calc_psi_zeta', 'boundary_flags', 'trace_streak',...
+     'N', 'ug', 'og', 'delt_n', 'problem');
 
 
 end
