@@ -108,7 +108,7 @@ elseif nargin == 3
     end
            
 else
-    error('Check input');
+    error('Check Input');
     
 end
 

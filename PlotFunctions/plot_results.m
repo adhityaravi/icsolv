@@ -2,6 +2,7 @@
 
 function plot_results(varargin)
 
+% plotting just the velocity field
 if nargin == 6
     
     U = varargin{1};
@@ -23,7 +24,8 @@ if nargin == 6
     ylabel('y ->')
     legend('Velocity field', 'Obstacle')
     axis equal
-    
+
+% plotting velocity field, vorticity and stream function
 elseif nargin == 8
     
     U = varargin{1};
@@ -66,7 +68,8 @@ elseif nargin == 8
     xlabel('x ->')
     ylabel('y ->')
     legend('Velocity field', 'Vorticity', 'Obstacle')
-    
+
+% plotting velocity field, particle trace and streak lines
 elseif nargin == 10
     
     U = varargin{1};
@@ -109,7 +112,9 @@ elseif nargin == 10
     xlabel('x ->')
     ylabel('y ->')
     legend('Injected Particles', 'Obstacle')
-      
+
+% plotting velocity field, vorticity, stream function, particle trace and
+%  streak lines
 elseif nargin == 12
     U = varargin{1};
     V = varargin{2};
