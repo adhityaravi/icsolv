@@ -43,8 +43,10 @@ if exist('ObstacleCoordinates.mat', 'file')
             ky_max = find(pt_part_y(kx) < max(ycoord));
             ky = intersect(ky_min, ky_max);
             
-            pt_part_x(ky) = [];
-            pt_part_y(ky) = [];
+            el = kx(ky);
+            
+            pt_part_x(el) = [];
+            pt_part_y(el) = [];
             
         case 'cylinder_wake'
             global radius
