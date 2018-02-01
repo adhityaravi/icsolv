@@ -27,7 +27,7 @@ get_ObstacleCoords(problem, delx, dely, jmax, imax);
 
 % inject particles for particle trace and streaklines
 if strcmp(trace_streak, 'on')
-    [pt_part_x, pt_part_y] = set_particles(N, ug, og, delx, 'pt');
+    [pt_part_x, pt_part_y] = set_particles(N, ug, og, delx, imax, 'pt');
 end
 
 % initializing the velocity and pressure throughout the grid
@@ -62,16 +62,15 @@ while T <= T_end
     if strcmp(calc_psi_zeta, 'on') && strcmp(trace_streak, 'on')
         %calculating sizes of stream function and vorticity
         [Psi, Zeta] = psi_zeta(U, V, imax, jmax, delx, dely);
-        
         % tracing the injected particles
         [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx, ...
                                               dely, delt, pt_part_x,...
                                               pt_part_y);
-        
-        % ***Streaklines not yet implemented***
-        sl_part_x = 0;
-        sl_part_y = 0; 
-        
+        % tracing the streaklines
+        if (i==1) || (rem(i, delt_n) == 0)
+            [sl_part_x, sl_part_y] = streaklines(U, V, imax, jmax, delx,...
+                                                 dely, delt, N, ug, og);
+        end    
         % plotting the results
         plot_results(U, V, Psi, Zeta, pt_part_x, pt_part_y, sl_part_x, ...
                      sl_part_y, jmax, imax, delx, dely);
@@ -79,7 +78,6 @@ while T <= T_end
     elseif strcmp(calc_psi_zeta, 'on') 
         %calculating sizes of stream function and vorticity
         [Psi, Zeta] = psi_zeta(U, V, imax, jmax, delx, dely);
-
         % creating a plot of velocity field, stream function and vorticity 
         plot_results(U, V, Psi, Zeta, jmax, imax, delx, dely);
         
@@ -87,12 +85,12 @@ while T <= T_end
         % tracing the injected particles
         [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx, ...
                                               dely, delt, pt_part_x,...
-                                              pt_part_y, problem);
-                                          
-        % ***Streaklines not yet implemented***
-        sl_part_x = 0;
-        sl_part_y = 0;
-        
+                                              pt_part_y, problem);                                  
+        % tracing the streaklines
+        if (i==1) || (rem(i, delt_n) == 0)
+            [sl_part_x, sl_part_y] = streaklines(U, V, imax, jmax, delx,...
+                                                 dely, delt, N, ug, og);
+        end  
         % plotting the results
         plot_results(U, V, pt_part_x, pt_part_y, sl_part_x, sl_part_y,...
                      jmax, imax, delx, dely);
@@ -113,8 +111,9 @@ while T <= T_end
 end
 
 %% post processing
-% saving the temporal development of the fluid as an avi file
-%movie2avi(M, 'Temporal development of the fluid'); %(not working)
+% saving the temporal development of the fluid as an avi file 
+%movie2avi(M, 'Temporal development of the fluid');
+movie(gcf, M);
 
 % creating a mesh plot for the final values of U, V, and P
 %visual(U, V, jmax, imax, P, 'mesh');

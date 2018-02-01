@@ -21,7 +21,7 @@ dely = 0.2;
 delt  = 0.02;
 
 % End time
-T_end = 0.2;
+T_end = 20;
 
 % maximum allowed iteration for pressure-iteration per time step(SOR)
 itermax = 150;

@@ -64,10 +64,10 @@ boundary_flags.wb = 1;
 trace_streak = 'on';
 
 % parameters required to plot particle trace and streak lines
-N = 10 ; % number of particles to be injected
-ug = 0.4; % lower boundary from which particle injection starts
-og = 3; % upper boundary where particle injection stops
-delt_n = 2*delt; % time interval between which streak lines have to be
+N = 16 ; % number of particles to be injected
+ug = 2*dely; % lower boundary from which particle injection starts
+og = 14*dely; % upper boundary where particle injection stops
+delt_n = 4; % time interval between which streak lines have to be
                  %  updated
 
 % dimensions of the box

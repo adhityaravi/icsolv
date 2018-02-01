@@ -1,0 +1,6 @@
+Improvements to be done
+
+-> implement better algorithm for get_ObstacleCoords
+-> add multiple solvers
+-> try to plot each particle in particle trace plot using different color
+-> try and implement better approximation to the differentials if possible

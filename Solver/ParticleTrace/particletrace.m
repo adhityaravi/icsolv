@@ -6,26 +6,27 @@ function [pt_part_x, pt_part_y] = particletrace(U, V, imax, jmax, delx,...
                                       
 % input variables
 % -------------------------------------------------------------------------
-% U        - U velocity over the entire domain
-% V        - V velocity over the entire domain
-% imax     - max. number of cells in x dir.
-% jmax     - max. number of cells in y dir.
-% delx     - size of the cell in x dir.
-% dely     - size of the cell in y dir.
-% N        - Number of particles along y axis to be injected in the flow
-% ug       - lower boundary
-% og       - upper boundary
-% delx     - cell size in x direction
+% U           - U velocity over the entire domain
+% V           - V velocity over the entire domain
+% imax        - max. number of cells in x dir.
+% jmax        - max. number of cells in y dir.
+% delx        - size of the cell in x dir.
+% dely        - size of the cell in y dir.
+% pt_part_x   - x coordinate of the particle at the previous time step
+% pt_part_y   - y coordinate of the particle at the previous time step
+% problem     - prblem that is currently being solved 
+
 
 % output variables
 % -------------------------------------------------------------------------
-% part_x   - x coordinate of the particle
-% part_y   - y coordinate of the particle
+% pt_part_x   - x coordinate of the particle at the current time step
+% pt_part_y   - y coordinate of the particle at the current time step
 
+% finding the new position of the particle
 [pt_part_x, pt_part_y] = new_position(U, V, imax, jmax, delx, dely, delt,...
                                       pt_part_x, pt_part_y);
               
-% finding and removing particles that strikes an obstacle or goes out of 
+% finding and removing particles that strike an obstacle or go out of 
 %  the domain
 
 % particles striking an obstacle
@@ -34,6 +35,7 @@ if exist('ObstacleCoordinates.mat', 'file')
     
     switch problem
         
+        % box and slanting beam obstacles
         case {'the_von_karmann', 'flow_above_stair', 'schraegem_balken'}
             kx_min = find(pt_part_x > min(xcoord));
             kx_max = find(pt_part_x < max(xcoord));
@@ -48,6 +50,7 @@ if exist('ObstacleCoordinates.mat', 'file')
             pt_part_x(el) = [];
             pt_part_y(el) = [];
             
+        % circular obstacles
         case 'cylinder_wake'
             global radius
             

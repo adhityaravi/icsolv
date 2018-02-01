@@ -100,7 +100,10 @@ elseif nargin == 3
         plot(part_x, part_y, 'R.');
         
     elseif strcmp(varargin{3}, 'sl');
-        error('Not implemented yet');
+        part_x = varargin{1};
+        part_y = varargin{2};
+        
+        plot(part_x, part_y);
         
     else
         error('Check Input');

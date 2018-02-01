@@ -115,11 +115,7 @@ elseif nargin == 10
     end
     hold off
     title('Particle trace and Streak lines')
-    if exist('ObstacleCoordinates.mat', 'file')
-        legend('Injected Particles', 'Obstacle', 'Streaklines')
-    else
-        legend('Injected Particles', 'Streaklines')
-    end
+    if exist('ObstacleCoordinates.m')
     xlabel('x ->')
     ylabel('y ->')
 
