@@ -4,7 +4,7 @@ function RHS = calc_RHS(F, G, imax, jmax, delt, delx, dely)
 
 % input variables
 % -------------------------------------------------------------------------
-% F & G terms from the simplifies Navier stokes equation
+% F & G terms from the simplified Navier stokes equation
 % imax           - max. number of cells in x direction
 % jmax           - max. number of cells in y direction
 % delt           - time step
