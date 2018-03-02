@@ -1,6 +1,6 @@
 % script for postprocessing (re-structuring P into a matrix) pressure
 
-function [P, RHS] = postpSor(P, RHS, em, jmax, imax)
+function [P] = postpSor(P, RHS, em, jmax, imax)
 
 % input variables
 % -------------------------------------------------------------------------
@@ -17,12 +17,10 @@ function [P, RHS] = postpSor(P, RHS, em, jmax, imax)
 for i=1:numel(em)
     s = numel(P);
     P = [P(1:(em(i)-1));0;P(em(i):s)];
-    RHS = [RHS(1:(em(i)-1));0;RHS(em(i):s)];
 end
 
 % reshaping P into a matrix
 P = reshape(P, imax+2, jmax+2);
-RHS = reshape(RHS,  imax+2, jmax+2);
 P = P';
 
 end

@@ -37,10 +37,9 @@ try
 
             % calculating the right hand side of the pressure equation
             RHS = calc_RHS(F, G, imax, jmax, delt, delx, dely);
-
-            % calculating the pressure value at the current time step
-            [P, it, res] = SOR(P, RHS, U, V, GX, GY, imax, jmax, delx, ...
-                               dely, epsi, itermax, omg, nu);
+   
+            % calculating pressure 
+            [P, it, res] = calc_P(P, RHS, delx, epsi, itermax, omg, h1, imax, jmax, Solver);
 
             % calculating the velocity values at the current time step
             [U, V] = calc_UV(F, G, P, imax, jmax, delt, delx, dely);

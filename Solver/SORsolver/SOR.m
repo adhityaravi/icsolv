@@ -1,6 +1,6 @@
 % script to solve the pressure equation using SOR
 
-function [P, it, res, RHS] = SOR(P, RHS, U, V, GX, GY, imax, jmax, delx, ...
+function [P, it, res] = SOR(P, RHS, U, V, GX, GY, imax, jmax, delx, ...
                             dely, epsi, itermax, omg, nu)
 
 % input variables
@@ -42,7 +42,7 @@ if delx == dely
     [P, it, res] = solveSOR(A, RHS, omg, P, epsi, itermax);
     
     % post-processing P 
-    [P, RHS] = postpSor(P, RHS, em, jmax, imax);
+    [P] = postpSor(P, RHS, em, jmax, imax);
     
 else 
     error(['Script cannot run for cells that have different',...
