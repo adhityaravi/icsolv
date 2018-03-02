@@ -25,7 +25,10 @@ delt  = 0.02;
 T_end = 20;
 
 % maximum allowed iteration for pressure-iteration per time step(SOR)
-itermax = 150;
+% NOTE : This acts as the number of Smoothing Steps for Multigrid
+%        algorithms
+itermax = 20;
+
 
 % precision criterion for pressure-iteration(SOR)
 epsi = 0.01;
@@ -79,11 +82,18 @@ corner = [4, 1.2]; % lower left corner
 length = 1;
 height = 1;
 
+% Solver options
+% -> SOR - SOR method
+% -> MV  - Multigrid V Cycle
+% -> MW  - Multigrid W Cycle
+% -> FMV - Full Multigrid V Cycle
+Solver = 'FMV';
+h1 = 1.2; % Mesh size limit for Multigrid methods
+
 % saving the values in a matlab input data file
 save('inFile.mat', 'imax', 'jmax', 'delx', 'dely', 'delt', 'T_end', ...
      'itermax', 'epsi', 'omg', 'alph', 'nu', 'GX', 'GY', 'U_I', ...
      'V_I', 'P_I', 'calc_psi_zeta', 'boundary_flags','trace_streak',...
-     'N', 'ug', 'og', 'delt_n', 'problem');
-
+     'N', 'ug', 'og', 'delt_n', 'Solver', 'h1', 'problem');
 
 end
